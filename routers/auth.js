@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const fs = require('fs');
+const { registrationSchemaValidator, loginSchemaValidator } = require('../validator/authValidator');
 
-router.post('/api/registration', function (req, res, next) {
+
+router.post('/api/registration', registrationSchemaValidator, function (req, res, next) {
     fs.readFile('./database/dbUsers.json', 'utf8', function (err, data) {
         if(err){
             return next(err);
@@ -29,7 +31,7 @@ router.post('/api/registration', function (req, res, next) {
     });
 });
 
-router.post('/api/login', function (req, res, next) {
+router.post('/api/login', loginSchemaValidator, function (req, res, next) {
     fs.readFile('./database/dbUsers.json', 'utf8', function (err, data) {
         if(err){
             return next(err);

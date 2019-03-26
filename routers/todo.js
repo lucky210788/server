@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const fs = require('fs');
+const { requestSchemaValidator } = require('../validator/requestValidator');
 
 router.get('/api/todolist', function(req, res) {
     fs.readFile('./database/dbtodo.json', 'utf8', function (err, data) {
@@ -8,7 +9,7 @@ router.get('/api/todolist', function(req, res) {
     });
 });
 
-router.put('/api/todolist/:id', function (req, res) {
+router.put('/api/todolist/:id', requestSchemaValidator, function (req, res) {
     fs.readFile('./database/dbtodo.json', 'utf8', function (err, data) {
         let dataArr = JSON.parse(data);
         for(let i=0; i<dataArr.length; i++){
@@ -32,7 +33,7 @@ router.delete('/api/todolist/:id', function (req, res) {
     });
 });
 
-router.post('/api/todolist', function (req, res) {
+router.post('/api/todolist', requestSchemaValidator, function (req, res) {
     fs.readFile('./database/dbtodo.json', 'utf8', function (err, data) {
         let dataArr = JSON.parse(data);
         const uuidv4 = require('uuid/v4');
